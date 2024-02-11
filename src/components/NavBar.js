@@ -60,7 +60,7 @@ const NavLinkContainer = styled.div`
   }
 `;
 
-const pages = ["Clientes", "Pedidos", "Produtos"];
+const pages = ["Clientes", "Pedidos", "Pedidos"];
 
 const Header = () => {
   const navigate = useNavigate();
@@ -72,7 +72,7 @@ const Header = () => {
         return <MdOutlinePeople />;
       case "Pedidos":
         return <MdOutlineShoppingCart />;
-      case "Produtos":
+      case "Pedidos":
         return <MdOutlineListAlt />;
       default:
         return null;

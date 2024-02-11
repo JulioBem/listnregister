@@ -1,6 +1,6 @@
 // pages/ClientesPage.js
 import React, { useState } from "react";
-import FormularioCadastro from "../components/FormularioCadastro";
+import FormularioCadastroCliente from "../components/FormularioCadastroCliente";
 import ListaClientes from "../components/ListaClientes";
 import SearchBar from "../components/SearchBar";
 import styled from "styled-components";
@@ -50,7 +50,7 @@ const ClientesPage = () => {
         closeModal={closeClientInfoModal}
         isOpen={isClientInfoModalOpen}
       />
-      <FormularioCadastro
+      <FormularioCadastroCliente
         isOpen={isRegisterModalOpen}
         closeModal={closeRegisterModal}
       />

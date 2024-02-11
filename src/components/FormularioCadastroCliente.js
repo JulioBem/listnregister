@@ -105,7 +105,7 @@ const SubmitBtnWrapper = styled.div`
   }
 `;
 
-const FormularioCadastro = ({ closeModal, isOpen }) => {
+const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
@@ -268,4 +268,4 @@ const FormularioCadastro = ({ closeModal, isOpen }) => {
   );
 };
 
-export default FormularioCadastro;
+export default FormularioCadastroCliente;

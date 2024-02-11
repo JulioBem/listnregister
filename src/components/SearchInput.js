@@ -2,6 +2,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchTerm } from "../store/actions/clienteActions";
+import { setSearchTermPedido } from "../store/actions/pedidoActions";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 
@@ -23,12 +24,23 @@ const Input = styled.input`
   outline: none;
 `;
 
-const SearchInput = () => {
+const SearchInput = ({ currentPage }) => {
   const dispatch = useDispatch();
-  const searchTerm = useSelector((state) => state.cliente.searchTerm);
-
+  const searchTerm = useSelector((state) => {
+    if (currentPage === "Cliente") {
+      return state.cliente.searchTerm;
+    } else if (currentPage === "Pedido") {
+      return state.pedido.searchTerm;
+    }
+    return "";
+  });
   const handleInputChange = (event) => {
-    dispatch(setSearchTerm(event.target.value));
+    const term = event.target.value;
+    if (currentPage === "Cliente") {
+      dispatch(setSearchTerm(term));
+    } else if (currentPage === "Pedido") {
+      dispatch(setSearchTermPedido(term));
+    }
   };
 
   return (
