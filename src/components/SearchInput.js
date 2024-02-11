@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchTerm } from "../store/actions/clienteActions";
 import { setSearchTermPedido } from "../store/actions/pedidoActions";
+import { setSearchTermProduto } from "../store/actions/produtoActions";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 
@@ -30,7 +31,9 @@ const SearchInput = ({ currentPage }) => {
     if (currentPage === "Cliente") {
       return state.cliente.searchTerm;
     } else if (currentPage === "Pedido") {
-      return state.pedido.searchTerm;
+      return state.pedido.searchTermPedido;
+    } else if (currentPage === "Produto") {
+      return state.produto.searchTermProduto;
     }
     return "";
   });
@@ -40,6 +43,8 @@ const SearchInput = ({ currentPage }) => {
       dispatch(setSearchTerm(term));
     } else if (currentPage === "Pedido") {
       dispatch(setSearchTermPedido(term));
+    } else if (currentPage === "Produto") {
+      dispatch(setSearchTermProduto(term));
     }
   };
 

@@ -5,7 +5,7 @@ const RegisterModal = ({ isOpen, closeModal, children }) => {
   const customStyles = {
     content: {
       width: "1068px",
-      height: "401px",
+      minHeight: "fit-content",
       padding: "0px",
       backgroundColor: "#fff",
       borderRadius: "8px",

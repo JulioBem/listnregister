@@ -23,6 +23,18 @@ const InputWrapper = styled.div`
     }
   }
 
+  textarea {
+    padding: 12px 16px;
+    border: 1.2px solid #ddd;
+    width: 100%;
+    height: 94px;
+    border-radius: 12px;
+
+    &:focus {
+      outline: #006ffd 1.5px solid;
+    }
+  }
+
   .error {
     color: red;
     margin-top: 5px;
@@ -40,16 +52,28 @@ const InputField = ({
   error,
 }) => {
   return (
-    <InputWrapper>
+    <InputWrapper id={id}>
       <label htmlFor={id}>{label}</label>
-      <input
-        id={id}
-        name={name}
-        type={type}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-      />
+      {type === "textarea" ? (
+        <textarea
+          id={id}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      ) : (
+        <input
+          id={id}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      )}
+
       {error && <div className="error">{error}</div>}
     </InputWrapper>
   );

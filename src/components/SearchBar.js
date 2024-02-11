@@ -16,7 +16,7 @@ const Container = styled.div`
 const SearchBar = ({ creationTarget, openModal }) => {
   return (
     <Container>
-      <SearchInput />
+      <SearchInput currentPage={creationTarget} />
       <CreateBtn creationTarget={creationTarget} openModal={openModal} />
     </Container>
   );

@@ -1,4 +1,3 @@
-// App.js
 import React from "react";
 import {
   BrowserRouter as Router,
@@ -9,12 +8,9 @@ import {
 import GlobalStyles from "./styles/GlobalStyles";
 import ClientesPage from "./pages/ClientesPage";
 import OrdersPage from "./pages/OrdersPage";
+import ProductsPage from "./pages/ProductsPage";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import NavBar from "./components/NavBar";
-
-// import OutraPagina from "./pages/OutraPagina";
-// import MaisUmaPagina from "./pages/MaisUmaPagina";
 
 const App = () => {
   return (
@@ -22,7 +18,7 @@ const App = () => {
       <GlobalStyles />
       <Router>
         <Routes>
-          {/* <Route path="/outra-pagina" element={<OutraPagina />} /> */}
+          <Route path="/produtos" element={<ProductsPage />} />
           <Route path="/pedidos" element={<OrdersPage />} />
           <Route path="/clientes" element={<ClientesPage />} />
           <Route path="/" element={<Navigate to="/clientes" />} />

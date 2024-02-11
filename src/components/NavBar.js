@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   MdOutlinePeople,
   MdOutlineShoppingCart,
@@ -60,10 +60,9 @@ const NavLinkContainer = styled.div`
   }
 `;
 
-const pages = ["Clientes", "Pedidos", "Pedidos"];
+const pages = ["Clientes", "Pedidos", "Produtos"];
 
 const Header = () => {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const renderIcon = (page) => {
@@ -72,7 +71,7 @@ const Header = () => {
         return <MdOutlinePeople />;
       case "Pedidos":
         return <MdOutlineShoppingCart />;
-      case "Pedidos":
+      case "Produtos":
         return <MdOutlineListAlt />;
       default:
         return null;

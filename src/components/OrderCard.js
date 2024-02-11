@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ProductCardContainer = styled.div`
+const OrderCardContainer = styled.div`
   width: 317px;
   height: 64px;
 
@@ -16,7 +16,7 @@ const ProductCardContainer = styled.div`
   cursor: pointer;
 `;
 
-const ProductCardAvatar = styled.div`
+const OrderCardAvatar = styled.div`
   width: 40px;
   height: 40px;
 
@@ -33,20 +33,20 @@ const ProductCardAvatar = styled.div`
   text-transform: uppercase;
 `;
 
-const ProductCardInfoContainer = styled.div`
+const OrderCardInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0;
 `;
 
-const ProductCardName = styled.p`
+const OrderCardName = styled.p`
   color: #000;
   font-size: 12px;
   font-weight: 700;
   text-transform: capitalize;
 `;
 
-const ProductCardCnpj = styled.p`
+const OrderCardCnpj = styled.p`
   color: #000;
   font-size: 12px;
 `;
@@ -70,21 +70,21 @@ const getInitialLetters = (str) => {
   }
 };
 
-const ProductCard = ({ product, productName, productCnpj, onClick }) => {
+const OrderCard = ({ order, orderName, orderCnpj, onClick }) => {
   const handleClick = () => {
     if (onClick) {
-      onClick(product);
+      onClick(order);
     }
   };
   return (
-    <ProductCardContainer onClick={handleClick}>
-      <ProductCardAvatar>{getInitialLetters(productName)}</ProductCardAvatar>
-      <ProductCardInfoContainer>
-        <ProductCardName>{productName}</ProductCardName>
-        <ProductCardCnpj>{productCnpj}</ProductCardCnpj>
-      </ProductCardInfoContainer>
-    </ProductCardContainer>
+    <OrderCardContainer onClick={handleClick}>
+      <OrderCardAvatar>{getInitialLetters(orderName)}</OrderCardAvatar>
+      <OrderCardInfoContainer>
+        <OrderCardName>{orderName}</OrderCardName>
+        <OrderCardCnpj>{orderCnpj}</OrderCardCnpj>
+      </OrderCardInfoContainer>
+    </OrderCardContainer>
   );
 };
 
-export default ProductCard;
+export default OrderCard;

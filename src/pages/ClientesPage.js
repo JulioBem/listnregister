@@ -18,10 +18,6 @@ const ClientesPage = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isClientInfoModalOpen, setIsClientInfoModalOpen] = useState(false);
   const [currentClientView, setCurrentClientView] = useState({});
-  console.log(
-    "🚀 ~ ClientesPage ~ isClientInfoModalOpen:",
-    isClientInfoModalOpen
-  );
 
   const openRegisterModal = () => {
     setIsRegisterModalOpen(true);
