@@ -5,6 +5,7 @@ import ListaClientes from "../components/ListaClientes";
 import SearchBar from "../components/SearchBar";
 import styled from "styled-components";
 import NavBar from "../components/NavBar";
+import ClientInfoModal from "../components/ClientInfoModal";
 
 const PageContainer = styled.div`
   display: flex;
@@ -14,30 +15,49 @@ const PageContainer = styled.div`
 `;
 
 const ClientesPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isClientInfoModalOpen, setIsClientInfoModalOpen] = useState(false);
+  const [currentClientView, setCurrentClientView] = useState({});
+  console.log(
+    "🚀 ~ ClientesPage ~ isClientInfoModalOpen:",
+    isClientInfoModalOpen
+  );
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const openRegisterModal = () => {
+    setIsRegisterModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeRegisterModal = () => {
+    setIsRegisterModalOpen(false);
   };
 
-  const setClientes = (updatedClientes) => {
-    // Implemente conforme necessário
+  const openClientInfoModal = (cliente) => {
+    setCurrentClientView(cliente);
+    setIsClientInfoModalOpen(true);
+  };
+
+  const closeClientInfoModal = () => {
+    setIsClientInfoModalOpen(false);
   };
 
   return (
     <PageContainer>
       <NavBar />
 
-      <SearchBar creationTarget={"Cliente"} openModal={openModal} />
-      <ListaClientes />
+      <SearchBar creationTarget={"Cliente"} openModal={openRegisterModal} />
+      <ListaClientes
+        openModal={openClientInfoModal}
+        closeModal={closeClientInfoModal}
+        isOpen={isClientInfoModalOpen}
+      />
       <FormularioCadastro
-        isOpen={isModalOpen}
-        closeModal={closeModal}
-        setClientes={setClientes}
+        isOpen={isRegisterModalOpen}
+        closeModal={closeRegisterModal}
+      />
+      <ClientInfoModal
+        isOpen={isClientInfoModalOpen}
+        closeModal={closeClientInfoModal}
+        cliente={currentClientView}
       />
     </PageContainer>
   );

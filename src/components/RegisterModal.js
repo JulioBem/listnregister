@@ -1,6 +1,5 @@
 import React from "react";
 import Modal from "react-modal";
-import styled from "styled-components";
 
 const RegisterModal = ({ isOpen, closeModal, children }) => {
   const customStyles = {
@@ -11,9 +10,9 @@ const RegisterModal = ({ isOpen, closeModal, children }) => {
       backgroundColor: "#fff",
       borderRadius: "8px",
       boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-      top: "50%", // Centraliza verticalmente
-      left: "50%", // Centraliza horizontalmente
-      transform: "translate(-50%, -50%)", // Ajusta a posição
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
     },
     overlay: {
       background: "rgba(0, 0, 0, 0.5)",
@@ -29,6 +28,7 @@ const RegisterModal = ({ isOpen, closeModal, children }) => {
       onRequestClose={closeModal}
       contentLabel="Modal Content"
       style={customStyles}
+      shouldCloseOnOverlayClick={true}
     >
       {children}
     </Modal>

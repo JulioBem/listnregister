@@ -9,7 +9,7 @@ const ListaWrapper = styled.div`
   gap: 16px;
 `;
 
-const ListaClientes = () => {
+const ListaClientes = ({ openModal }) => {
   const clientes = useSelector((state) => state.cliente.clientes);
   const searchTerm = useSelector((state) => state.cliente.searchTerm);
 
@@ -24,6 +24,8 @@ const ListaClientes = () => {
           key={cliente.cnpj}
           clientCnpj={cliente.cnpj}
           clientName={cliente.nome}
+          client={cliente}
+          onClick={openModal}
         />
       ))}
     </ListaWrapper>

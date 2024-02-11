@@ -12,6 +12,8 @@ const ClientCardContainer = styled.div`
   align-items: center;
   padding: 16px;
   gap: 16px;
+
+  cursor: pointer;
 `;
 
 const ClientCardAvatar = styled.div`
@@ -68,9 +70,14 @@ const getInitialLetters = (str) => {
   }
 };
 
-const ClientCard = ({ clientName, clientCnpj }) => {
+const ClientCard = ({ client, clientName, clientCnpj, onClick }) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick(client);
+    }
+  };
   return (
-    <ClientCardContainer>
+    <ClientCardContainer onClick={handleClick}>
       <ClientCardAvatar>{getInitialLetters(clientName)}</ClientCardAvatar>
       <ClientCardInfoContainer>
         <ClientCardName>{clientName}</ClientCardName>

@@ -44,6 +44,7 @@ const NavLinkContainer = styled.div`
 
     a {
       color: #006ffd;
+      text-decoration: none;
     }
   }
 
