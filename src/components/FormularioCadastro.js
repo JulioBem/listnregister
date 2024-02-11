@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -114,7 +114,7 @@ const FormularioCadastro = ({ closeModal, isOpen }) => {
       cnpj: "",
       telefone: "",
       cep: "",
-      endereço: "",
+      endereco: "",
       bairro: "",
       cidade: "",
       estado: "",
@@ -131,10 +131,6 @@ const FormularioCadastro = ({ closeModal, isOpen }) => {
     }),
     onSubmit: (values) => {
       dispatch(cadastrarCliente(values));
-      const updatedClientes =
-        JSON.parse(localStorage.getItem("clientes")) || [];
-      updatedClientes.push(values);
-      localStorage.setItem("clientes", JSON.stringify(updatedClientes));
       formik.resetForm();
       closeModal();
     },
@@ -259,7 +255,9 @@ const FormularioCadastro = ({ closeModal, isOpen }) => {
           <SubmitBtnWrapper>
             <button
               type="submit"
-              disabled={Object.values(formik.values).some((value) => !value)}
+              disabled={Object.values(formik.values).some(
+                (value) => value === ""
+              )}
             >
               Salvar
             </button>

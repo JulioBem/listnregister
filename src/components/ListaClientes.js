@@ -4,8 +4,8 @@ import ClientCard from "./ClientCard";
 
 const ListaWrapper = styled.div`
   width: 1316px;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 16px;
 `;
 
@@ -16,8 +16,6 @@ const ListaClientes = () => {
   const filteredClientes = clientes.filter((cliente) =>
     cliente.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
-  // console.log("🚀 ~ ListaClientes ~ modalIsOpen:", modalIsOpen);
 
   return (
     <ListaWrapper>

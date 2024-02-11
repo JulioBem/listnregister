@@ -1,7 +1,7 @@
 // components/SearchInput.js
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm } from "../store/reducers/clienteReducer";
+import { setSearchTerm } from "../store/actions/clienteActions";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 

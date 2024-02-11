@@ -11,7 +11,7 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    background-color: #f8f8f8;
+    background-color: #f6f8fc;
     color: #333;
   }
 
@@ -22,6 +22,8 @@ const GlobalStyles = createGlobalStyle`
     &:hover {
       text-decoration: underline;
     }
+
+    
   }
 `;
 

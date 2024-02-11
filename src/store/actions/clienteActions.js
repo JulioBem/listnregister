@@ -1,11 +1,5 @@
-export const cadastrarCliente = (cliente) => {
-  return {
-    type: "CADASTRAR_CLIENTE",
-    payload: cliente,
-  };
-};
+// actions/clienteActions.js
+import { createAction } from "@reduxjs/toolkit";
 
-export const setSearchTerm = (term) => ({
-  type: "SET_SEARCH_TERM",
-  payload: term,
-});
+export const cadastrarCliente = createAction("cliente/CADASTRAR_CLIENTE");
+export const setSearchTerm = createAction("cliente/SET_SEARCH_TERM");

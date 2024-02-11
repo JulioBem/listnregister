@@ -1,4 +1,6 @@
+// clientereducer.js
 import { createSlice } from "@reduxjs/toolkit";
+import { cadastrarCliente, setSearchTerm } from "../actions/clienteActions";
 
 const loadClientesFromStorage = () => {
   const storedClientes = localStorage.getItem("clientes");
@@ -11,16 +13,17 @@ const clienteSlice = createSlice({
     clientes: loadClientesFromStorage(),
     searchTerm: "",
   },
-  reducers: {
-    setSearchTerm: (state, action) => {
-      state.searchTerm = action.payload;
-    },
-    addCliente: (state, action) => {
-      state.clientes.push(action.payload);
-      localStorage.setItem("clientes", JSON.stringify(state.clientes));
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(cadastrarCliente, (state, action) => {
+        state.clientes.push(action.payload);
+        localStorage.setItem("clientes", JSON.stringify(state.clientes));
+      })
+      .addCase(setSearchTerm, (state, action) => {
+        state.searchTerm = action.payload;
+      });
   },
 });
 
-export const { setSearchTerm, addCliente } = clienteSlice.actions;
 export default clienteSlice.reducer;
