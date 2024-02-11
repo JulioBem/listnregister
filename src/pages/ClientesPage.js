@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import FormularioCadastro from "../components/FormularioCadastro";
 import ListaClientes from "../components/ListaClientes";
-import Modal from "react-modal";
-import NavBar from "../components/NavBar";
+import SearchBar from "../components/SearchBar";
 import styled from "styled-components";
+import NavBar from "../components/NavBar";
 
 const PageContainer = styled.div`
   display: flex;
@@ -30,7 +30,9 @@ const ClientesPage = () => {
 
   return (
     <PageContainer>
-      <NavBar creationTarget={"Cliente"} openModal={openModal} />
+      <NavBar />
+
+      <SearchBar creationTarget={"Cliente"} openModal={openModal} />
       <ListaClientes />
       <FormularioCadastro
         isOpen={isModalOpen}
