@@ -8,6 +8,7 @@ import styled from "styled-components";
 import RegisterModal from "./RegisterModal";
 import InputField from "./InputField";
 import { IoMdClose } from "react-icons/io";
+import { PatternFormat } from "react-number-format";
 
 const FormWrapper = styled.div`
   form {
@@ -122,12 +123,22 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
     },
     validationSchema: Yup.object({
       nome: Yup.string().required("Campo obrigatório"),
-      cnpj: Yup.string().required("Campo obrigatório"),
-      telefone: Yup.string().required("Campo obrigatório"),
+      cnpj: Yup.string()
+        .required("Campo obrigatório")
+        .matches(
+          /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+          "CNPJ deve ter o formato 'xx.xxx.xxx/xxxx-xx'"
+        ),
+      telefone: Yup.string()
+        .required("Campo obrigatório")
+        .matches(
+          /^\(\d{2}\) \d{5}-\d{4}$/,
+          "Telefone deve ter o formato '(xx) xxxxx-xxxx'"
+        ),
       numero: Yup.string().required("Campo obrigatório"),
       cep: Yup.string()
         .required("Campo obrigatório")
-        .matches(/^\d{8}$/, "CEP deve ter 8 dígitos"),
+        .matches(/^\d{5}-\d{3}$/, "CEP deve ter o formato '12345-678'"),
     }),
     onSubmit: (values) => {
       dispatch(cadastrarCliente(values));
@@ -181,7 +192,10 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
               onChange={formik.handleChange}
               error={formik.touched.nome && formik.errors.nome}
             />
-            <InputField
+            <PatternFormat
+              format="##.###.###/####-##"
+              mask="_"
+              customInput={InputField}
               label="CNPJ:"
               id="cnpj"
               name="cnpj"
@@ -190,7 +204,10 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
               onChange={formik.handleChange}
               error={formik.touched.cnpj && formik.errors.cnpj}
             />
-            <InputField
+            <PatternFormat
+              format="(##) #####-####"
+              mask="_"
+              customInput={InputField}
               label="Telefone:"
               id="telefone"
               name="telefone"
@@ -199,7 +216,10 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
               onChange={formik.handleChange}
               error={formik.touched.telefone && formik.errors.telefone}
             />
-            <InputField
+            <PatternFormat
+              format="#####-###"
+              mask="_"
+              customInput={InputField}
               label="CEP:"
               id="cep"
               name="cep"

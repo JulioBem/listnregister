@@ -7,6 +7,7 @@ import RegisterModal from "./RegisterModal";
 import InputField from "./InputField";
 import { IoMdClose } from "react-icons/io";
 import InputFile from "./InputFile";
+import { PatternFormat, NumericFormat } from "react-number-format";
 
 const FormWrapper = styled.div`
   form {
@@ -124,14 +125,13 @@ const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
       nome: "",
       valor: "",
       descricao: "",
-      imagemFile: null,
+      imagemFile: "https://placehold.co/250x250",
       id: generateRandomId(),
     },
     validationSchema: Yup.object({
       nome: Yup.string().required("Campo obrigatório"),
       valor: Yup.number().required("Campo obrigatório"),
       descricao: Yup.string().required("Campo obrigatório"),
-      imagemFile: Yup.mixed().required("Campo obrigatório"),
     }),
     onSubmit: (values) => {
       dispatch(cadastrarProduto(values));
@@ -162,13 +162,23 @@ const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
               onChange={formik.handleChange}
               error={formik.touched.nome && formik.errors.nome}
             />
-            <InputField
+            <NumericFormat
+              thousandSeparator="."
+              decimalSeparator=","
+              prefix="R$ "
+              allowNegative={false}
+              decimalScale={2}
+              inputMode="decimal"
+              data-cy="price"
+              customInput={InputField}
               label="Valor:"
               id="valor"
               name="valor"
-              type="number"
               value={formik.values.valor}
-              onChange={formik.handleChange}
+              onValueChange={(values) => {
+                formik.setFieldValue("valor", values.value);
+              }}
+              onBlur={formik.handleBlur}
               error={formik.touched.valor && formik.errors.valor}
             />
             <InputField

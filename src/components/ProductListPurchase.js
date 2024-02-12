@@ -20,7 +20,6 @@ const ProductListPurchase = ({ formik }) => {
   );
   return (
     <>
-      {" "}
       <SearchInput currentPage="Produto" />
       <ListaWrapper>
         {filteredProdutos.map((produto) => (
