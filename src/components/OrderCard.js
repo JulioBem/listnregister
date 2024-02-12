@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const OrderCardContainer = styled.div`
-  width: 317px;
-  height: 64px;
+  width: 314px;
+  height: 99px;
 
   background: #ffffff;
   border-radius: 8px;
@@ -24,7 +24,7 @@ const OrderCardAvatar = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: #72adf3;
+  background-color: #f37272;
   border-radius: 100%;
 
   color: #fff;
@@ -34,9 +34,17 @@ const OrderCardAvatar = styled.div`
 `;
 
 const OrderCardInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "name price"
+    "qtd price";
   gap: 0;
+  /* width: min-content; */
+
+  p {
+    white-space: nowrap;
+  }
 `;
 
 const OrderCardName = styled.p`
@@ -44,11 +52,24 @@ const OrderCardName = styled.p`
   font-size: 12px;
   font-weight: 700;
   text-transform: capitalize;
+  grid-area: name;
 `;
 
-const OrderCardCnpj = styled.p`
+const OrderCardQtd = styled.p`
   color: #000;
   font-size: 12px;
+  grid-area: qtd;
+`;
+
+const OrderCardPrice = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  color: #000;
+  font-size: 14px;
+  font-weight: 800;
+  grid-area: price;
 `;
 
 const getInitialLetters = (str) => {
@@ -70,18 +91,18 @@ const getInitialLetters = (str) => {
   }
 };
 
-const OrderCard = ({ order, orderName, orderCnpj, onClick }) => {
-  const handleClick = () => {
-    if (onClick) {
-      onClick(order);
-    }
-  };
+const OrderCard = ({ order }) => {
+  const { nome } = JSON.parse(order.cliente);
+
   return (
-    <OrderCardContainer onClick={handleClick}>
-      <OrderCardAvatar>{getInitialLetters(orderName)}</OrderCardAvatar>
+    <OrderCardContainer>
+      <OrderCardAvatar>{getInitialLetters(nome)}</OrderCardAvatar>
       <OrderCardInfoContainer>
-        <OrderCardName>{orderName}</OrderCardName>
-        <OrderCardCnpj>{orderCnpj}</OrderCardCnpj>
+        <OrderCardName>{nome}</OrderCardName>
+        <OrderCardQtd>
+          Qtd. de Produtos: {order.qtdDeProdutosTotal}
+        </OrderCardQtd>
+        <OrderCardPrice>R$ {order.valorTotal}</OrderCardPrice>
       </OrderCardInfoContainer>
     </OrderCardContainer>
   );

@@ -1,3 +1,5 @@
+// components/ListaPedidos.js
+import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import OrderCard from "./OrderCard";
@@ -9,24 +11,18 @@ const ListaWrapper = styled.div`
   gap: 16px;
 `;
 
-const ListaPedidos = ({ openModal }) => {
-  const pedidos = useSelector((state) => state.pedido.pedidos);
+const ListaPedidos = () => {
+  const orders = useSelector((state) => state.pedido.pedidos);
   const searchTerm = useSelector((state) => state.pedido.searchTerm);
 
-  const filteredPedidos = pedidos.filter((pedido) =>
-    pedido.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredOrders = orders.filter((order) =>
+    order.cliente.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <ListaWrapper>
-      {filteredPedidos.map((pedido) => (
-        <OrderCard
-          key={pedido.id} // Use a propriedade adequada para identificar um pedido
-          produtoCnpj={pedido.cnpj} // Corrigir isso de acordo com a estrutura do seu pedido
-          produtoName={pedido.nome}
-          order={pedido}
-          onClick={openModal}
-        />
+      {filteredOrders.map((order) => (
+        <OrderCard key={order.id} order={order} />
       ))}
     </ListaWrapper>
   );

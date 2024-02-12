@@ -112,12 +112,20 @@ const SubmitBtnWrapper = styled.div`
 const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
   const dispatch = useDispatch();
 
+  const generateRandomId = () => {
+    const min = 1;
+    const max = 1000;
+    const randomId = Math.floor(Math.random() * (max - min + 1)) + min;
+    return randomId;
+  };
+
   const formik = useFormik({
     initialValues: {
       nome: "",
       valor: "",
       descricao: "",
       imagemFile: null,
+      id: generateRandomId(),
     },
     validationSchema: Yup.object({
       nome: Yup.string().required("Campo obrigatório"),
