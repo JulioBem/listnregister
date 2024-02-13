@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import FormularioCadastroPedido from "../components/FormularioCadastroPedido";
-import ListaPedidos from "../components/ListaPedidos";
-import SearchBar from "../components/SearchBar";
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/common/NavBar";
+import SearchBar from "../components/common/SearchBar";
+import OrderList from "../components/order/OrderList";
+import FormRegisterOrder from "../components/order/FormRegisterOrder";
 
 const PageContainer = styled.div`
   display: flex;
@@ -28,8 +28,8 @@ const ProductsPage = () => {
       <NavBar />
 
       <SearchBar creationTarget={"Pedido"} openModal={openRegisterModal} />
-      <ListaPedidos />
-      <FormularioCadastroPedido
+      <OrderList />
+      <FormRegisterOrder
         isOpen={isRegisterModalOpen}
         closeModal={closeRegisterModal}
       />

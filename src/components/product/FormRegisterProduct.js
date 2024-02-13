@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { cadastrarProduto } from "../store/actions/produtoActions";
+import { registerProduct } from "../../store/actions/productActions";
 import styled from "styled-components";
-import RegisterModal from "./RegisterModal";
-import InputField from "./InputField";
+import RegisterModal from "../common/RegisterModal";
+import InputField from "../common/InputField";
 import { IoMdClose } from "react-icons/io";
-import InputFile from "./InputFile";
-import { PatternFormat, NumericFormat } from "react-number-format";
+import InputFile from "../common/InputFile";
+import { NumericFormat } from "react-number-format";
 
 const FormWrapper = styled.div`
   form {
@@ -78,8 +78,8 @@ const InputWrapper = styled.div`
     transform: translateX(-50%);
   }
 
-  #descricao,
-  #imagemFile {
+  #description,
+  #imageFile {
     grid-column: span 2;
   }
 `;
@@ -110,7 +110,7 @@ const SubmitBtnWrapper = styled.div`
   }
 `;
 
-const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
+const FormRegisterProduct = ({ closeModal, isOpen }) => {
   const dispatch = useDispatch();
 
   const generateRandomId = () => {
@@ -122,19 +122,21 @@ const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
 
   const formik = useFormik({
     initialValues: {
-      nome: "",
-      valor: "",
-      descricao: "",
-      imagemFile: "https://placehold.co/250x250",
-      id: generateRandomId(),
+      name: "",
+      value: "",
+      description: "",
+      imageFile: "https://placehold.co/250x250",
+      id: null,
     },
     validationSchema: Yup.object({
-      nome: Yup.string().required("Campo obrigatório"),
-      valor: Yup.number().required("Campo obrigatório"),
-      descricao: Yup.string().required("Campo obrigatório"),
+      name: Yup.string().required("Campo obrigatório"),
+      value: Yup.number().required("Campo obrigatório"),
+      description: Yup.string().required("Campo obrigatório"),
     }),
-    onSubmit: (values) => {
-      dispatch(cadastrarProduto(values));
+    onSubmit: async (values) => {
+      const newId = generateRandomId();
+      const updatedValuesWithId = { ...values, id: newId };
+      dispatch(registerProduct(updatedValuesWithId));
       formik.resetForm();
       closeModal();
     },
@@ -155,12 +157,12 @@ const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
           <InputWrapper>
             <InputField
               label="Nome:"
-              id="nome"
-              name="nome"
+              id="name"
+              name="name"
               type="text"
-              value={formik.values.nome}
+              value={formik.values.name}
               onChange={formik.handleChange}
-              error={formik.touched.nome && formik.errors.nome}
+              error={formik.touched.name && formik.errors.name}
             />
             <NumericFormat
               thousandSeparator="."
@@ -172,41 +174,41 @@ const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
               data-cy="price"
               customInput={InputField}
               label="Valor:"
-              id="valor"
-              name="valor"
-              value={formik.values.valor}
+              id="value"
+              name="value"
+              value={formik.values.value}
               onValueChange={(values) => {
-                formik.setFieldValue("valor", values.value);
+                formik.setFieldValue("value", values.value);
               }}
               onBlur={formik.handleBlur}
-              error={formik.touched.valor && formik.errors.valor}
+              error={formik.touched.value && formik.errors.value}
             />
             <InputField
               label="Descrição"
-              id="descricao"
-              name="descricao"
+              id="description"
+              name="description"
               type="textarea"
-              value={formik.values.descricao}
+              value={formik.values.description}
               onChange={formik.handleChange}
-              error={formik.touched.descricao && formik.errors.descricao}
+              error={formik.touched.description && formik.errors.description}
             />
             <InputFile
               label="Imagem do Produto:"
-              id="imagemFile"
-              name="imagemFile"
+              id="imageFile"
+              name="imageFile"
               type="file"
               accept="image/jpeg, image/png"
               onChange={(event) =>
-                formik.setFieldValue("imagemFile", event.currentTarget.files[0])
+                formik.setFieldValue("imageFile", event.currentTarget.files[0])
               }
-              error={formik.touched.imagemFile && formik.errors.imagemFile}
+              error={formik.touched.imageFile && formik.errors.imageFile}
             />
           </InputWrapper>
           <SubmitBtnWrapper>
             <button
               type="submit"
               disabled={Object.values(formik.values).some(
-                (value) => value === "" || value === null
+                (value) => value === ""
               )}
             >
               Salvar
@@ -218,4 +220,4 @@ const FormularioCadastroProduto = ({ closeModal, isOpen }) => {
   );
 };
 
-export default FormularioCadastroProduto;
+export default FormRegisterProduct;

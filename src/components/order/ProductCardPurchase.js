@@ -1,16 +1,12 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { adicionarProdutoAoPedido } from "../store/actions/pedidoActions";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const ProductCardContainer = styled.div`
   width: 327px;
   height: 100px;
-
   background: #ffffff;
   border: 1px solid #d4d6dd;
   border-radius: 16px;
-
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -92,65 +88,80 @@ const ProductActions = styled.div`
   }
 `;
 
-const ProductCard = ({ product, productName, productValue, formik }) => {
+const ProductCard = ({ product, formik }) => {
   const [amount, setAmount] = useState(0);
 
   const handleProductAmountChange = (action) => {
-    if (action === "increase") {
-      setAmount((prevState) => prevState + 1);
-    } else {
-      if (amount > 0) setAmount((prevState) => prevState - 1);
-    }
-
-    const updatedProducts = formik.values.produtos.map((p) => {
+    const updatedProducts = formik.values.products.map((p) => {
       if (p.id === product.id) {
-        const newQtd = p.quantidade + (action === "increase" ? 1 : -1);
+        const newQtd = action === "increase" ? p.quantity + 1 : p.quantity - 1;
+
+        if (newQtd <= 0) {
+          setAmount(0);
+          return {
+            ...p,
+            quantity: 0,
+            totalValue: 0,
+          };
+        }
+
+        const newTotalValue = newQtd * product.value;
+        setAmount(newQtd);
+
         return {
           ...p,
-          quantidade: newQtd,
-          valorTotal: newQtd * product.valor,
+          quantity: newQtd,
+          totalValue: newTotalValue,
         };
       }
       return p;
     });
 
+    const updatedProductsFiltered = updatedProducts.filter(
+      (p) => p !== null && p.quantity > 0
+    );
+
     if (
-      !updatedProducts.some((p) => p.id === product.id && p.quantidade !== 0)
+      !updatedProducts.some((p) => p.id === product.id) &&
+      action === "increase"
     ) {
-      updatedProducts.push({
+      setAmount(1);
+      updatedProductsFiltered.push({
         id: product.id,
-        quantidade: 1,
-        valorTotal: product.valor,
+        quantity: 1,
+        totalValue: product.value,
       });
     }
-    console.log(
-      "🚀 ~ handleProductAmountChange ~ updatedProducts:",
-      updatedProducts
-    );
-    formik.setFieldValue("produtos", updatedProducts);
+
+    formik.setFieldValue("products", updatedProductsFiltered);
   };
 
   const imageUrl =
-    product?.imagemFile instanceof Blob
-      ? URL.createObjectURL(product.imagemFile)
+    product?.imageFile instanceof Blob
+      ? URL.createObjectURL(product.imageFile)
       : "https://placehold.co/250x250";
+
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const productValue = formatter.format(product?.value) || "R$ 00,00";
 
   return (
     <ProductCardContainer>
       <ProductCardImage>
-        <img src={imageUrl} alt={productName} />
+        <img src={imageUrl} alt={product?.name || "Produto"} />
       </ProductCardImage>
       <ProductCardInfoContainer>
-        <ProductCardName>{productName}</ProductCardName>
+        <ProductCardName>{product?.name || "Name do Produto"}</ProductCardName>
         <ProductCardId>ID: {product?.id ?? "-"}</ProductCardId>
         <ProductActionsContainer>
           <ProductActions>
             <button
               type="button"
               className="productActionsBtn"
-              onClick={() => {
-                handleProductAmountChange("increase");
-              }}
+              onClick={() => handleProductAmountChange("increase")}
             >
               +
             </button>
@@ -158,14 +169,12 @@ const ProductCard = ({ product, productName, productValue, formik }) => {
             <button
               type="button"
               className="productActionsBtn"
-              onClick={() => {
-                handleProductAmountChange("decrease");
-              }}
+              onClick={() => handleProductAmountChange("decrease")}
             >
               -
             </button>
           </ProductActions>
-          <ProductCardValue>R$ {productValue}</ProductCardValue>
+          <ProductCardValue>{productValue}</ProductCardValue>
         </ProductActionsContainer>
       </ProductCardInfoContainer>
     </ProductCardContainer>

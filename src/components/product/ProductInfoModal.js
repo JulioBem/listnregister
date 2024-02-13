@@ -1,4 +1,3 @@
-import React from "react";
 import { IoMdClose } from "react-icons/io";
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -109,6 +108,7 @@ const ImageContainer = styled.div`
 `;
 
 const ProductInfoModal = ({ isOpen, closeModal, product }) => {
+  console.log("🚀 ~ ProductInfoModal ~ product:", product);
   const customStyles = {
     content: {
       minWidth: "791px",
@@ -131,9 +131,16 @@ const ProductInfoModal = ({ isOpen, closeModal, product }) => {
   };
 
   const imageUrl =
-    product?.imagemFile instanceof Blob
-      ? URL.createObjectURL(product.imagemFile)
+    product?.imageFile instanceof Blob
+      ? URL.createObjectURL(product.imageFile)
       : "https://placehold.co/250x250";
+
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const productValue = formatter.format(product?.value) || "R$ 00,00";
 
   return (
     <Modal
@@ -150,12 +157,12 @@ const ProductInfoModal = ({ isOpen, closeModal, product }) => {
         </FormHeader>
         <InfoWrapper>
           <ImageContainer>
-            <img src={imageUrl} alt={product.nome + product.descricao}></img>
+            <img src={imageUrl} alt={product?.name}></img>
           </ImageContainer>
           <ProductDetails>
-            <h1>{product.nome}</h1>
-            <span className="productValue">R$ {product.valor}</span>
-            <span className="productDescription">{product.descricao}</span>
+            <h1>{product?.name}</h1>
+            <span className="productValue">{productValue}</span>
+            <span className="productDescription">{product?.description}</span>
           </ProductDetails>
         </InfoWrapper>
       </FormWrapper>

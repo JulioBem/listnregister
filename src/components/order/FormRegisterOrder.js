@@ -1,15 +1,13 @@
-// Importe as bibliotecas e componentes necessários
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { IoMdClose } from "react-icons/io";
-import { cadastrarPedido } from "../store/actions/pedidoActions";
 import styled from "styled-components";
-import RegisterModal from "./RegisterModal";
-import ClientSelector from "./ClienteSelector";
-import InputField from "./InputField";
+import RegisterModal from "../common/RegisterModal";
+import ClientSelector from "../client/ClientSelector";
+import InputField from "../common/InputField";
 import ProductListPurchase from "./ProductListPurchase";
+import { registerOrder } from "../../store/actions/orderActions";
 
 const FormWrapper = styled.div`
   form {
@@ -67,12 +65,12 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
-  height: 421px;
+  height: fit-content;
 
   &::after {
     content: "";
     position: absolute;
-    top: 466px;
+    top: 100%;
     left: 50%;
     width: 100%;
     height: 2px;
@@ -107,47 +105,46 @@ const SubmitBtnWrapper = styled.div`
   }
 `;
 
-const FormularioCadastroPedido = ({ closeModal, isOpen }) => {
+const FormRegisterOrder = ({ closeModal, isOpen }) => {
   const dispatch = useDispatch();
 
   const handleSave = (values) => {
-    const qtdDeProdutosTotal = values.produtos.reduce(
-      (total, objeto) => total + objeto.quantidade,
+    const pdtTotalQuantity = values.products.reduce(
+      (total, objeto) => total + objeto.quantity,
       0
     );
-    const valorTotal = values.produtos.reduce(
-      (total, objeto) => total + Number(objeto.valorTotal),
+    const totalValue = values.products.reduce(
+      (total, objeto) => total + Number(objeto.totalValue),
       0
     );
 
     const newOrder = {
       id: Date.now(),
-      cliente: values.cliente,
-      produtos: values.produtos.map((produto) => ({
-        ...produto,
-        quantidade: produto.quantidade || 0,
+      client: values.client,
+      products: values.products.map((products) => ({
+        ...products,
+        quantity: products.quantity || 0,
       })),
-      dataPedido: values.dataPedido,
-      qtdDeProdutosTotal,
-      valorTotal,
+      orderDate: values.orderDate,
+      pdtTotalQuantity,
+      totalValue,
     };
 
-    dispatch(cadastrarPedido(newOrder));
-    closeModal();
+    dispatch(registerOrder(newOrder));
   };
 
   const formik = useFormik({
     initialValues: {
-      cliente: "",
-      dataPedido: "",
-      produtos: [], // Inicializa como uma matriz vazia
+      client: "",
+      orderDate: "",
+      products: [],
     },
     validationSchema: Yup.object({
-      cliente: Yup.string().required("Campo obrigatório"),
-      dataPedido: Yup.date().required("Campo obrigatório"),
-      produtos: Yup.array()
+      client: Yup.string().required("Campo obrigatório"),
+      orderDate: Yup.date().required("Campo obrigatório"),
+      products: Yup.array()
         .required("Campo obrigatório")
-        .min(1, "Adicione pelo menos um produto"), // Adapte as validações conforme necessário
+        .min(1, "Adicione pelo menos um produto"),
     }),
     onSubmit: (values) => {
       handleSave(values);
@@ -155,7 +152,6 @@ const FormularioCadastroPedido = ({ closeModal, isOpen }) => {
       closeModal();
     },
   });
-  console.log("🚀 ~ FormularioCadastroPedido ~ formik:", formik.values);
 
   return (
     <RegisterModal
@@ -171,22 +167,22 @@ const FormularioCadastroPedido = ({ closeModal, isOpen }) => {
           </FormHeader>
           <InputWrapper>
             <ClientSelector
-              value={formik.values.cliente}
+              value={formik.values.client}
               onChange={formik.handleChange}
               label="Cliente:"
-              id="cliente"
+              id="client"
             />
             <InputField
               label="Data do Pedido:"
-              id="dataPedido"
-              name="dataPedido"
+              id="orderDate"
+              name="orderDate"
               type="date"
-              value={formik.values.dataPedido}
+              value={formik.values.orderDate}
               onChange={formik.handleChange}
-              error={formik.touched.dataPedido && formik.errors.dataPedido}
+              error={formik.touched.orderDate && formik.errors.orderDate}
             />
             <ProductListPurchase
-              value={formik.values.produtos}
+              value={formik.values.products}
               onChange={formik.handleChange}
               formik={formik}
             />
@@ -195,7 +191,9 @@ const FormularioCadastroPedido = ({ closeModal, isOpen }) => {
             <button
               type="submit"
               disabled={Object.values(formik.values).some(
-                (value) => value === "" || value === null
+                (value) =>
+                  value === "" ||
+                  (typeof value === "object" && value.length <= 0)
               )}
             >
               Salvar
@@ -207,4 +205,4 @@ const FormularioCadastroPedido = ({ closeModal, isOpen }) => {
   );
 };
 
-export default FormularioCadastroPedido;
+export default FormRegisterOrder;

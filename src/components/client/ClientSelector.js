@@ -1,5 +1,3 @@
-// components/sharedComponents/ClientSelector.js
-import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
@@ -13,23 +11,12 @@ const InputWrapper = styled.div`
     line-height: 14.52px;
   }
 
-  select {
-    padding: 12px 16px;
-    border: 1.2px solid #ddd;
-    width: 100%;
-    height: 48px;
-    border-radius: 12px;
-
-    &:focus {
-      outline: #006ffd 1.5px solid;
-    }
-  }
-
+  select,
   textarea {
     padding: 12px 16px;
     border: 1.2px solid #ddd;
     width: 100%;
-    height: 94px;
+    height: ${({ textarea }) => (textarea ? "94px" : "48px")};
     border-radius: 12px;
 
     &:focus {
@@ -44,15 +31,16 @@ const InputWrapper = styled.div`
 `;
 
 const ClientSelector = ({ value, onChange, label, id }) => {
-  const clients = useSelector((state) => state.cliente.clientes);
+  const clients = useSelector((state) => state.client.clients);
 
   return (
     <InputWrapper id={id}>
+      <label htmlFor={id}>{label}</label>
       <select name={id} value={value} onChange={onChange}>
         <option value="">Selecione um cliente</option>
         {clients.map((client) => (
           <option key={client.cnpj} value={JSON.stringify(client)}>
-            {client.nome}
+            {client.name}
           </option>
         ))}
       </select>

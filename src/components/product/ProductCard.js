@@ -51,7 +51,7 @@ const ProductCardValue = styled.p`
   font-weight: 800;
 `;
 
-const ProductCard = ({ product, productName, productValue, onClick }) => {
+const ProductCard = ({ product, onClick }) => {
   const handleClick = () => {
     if (onClick) {
       onClick(product);
@@ -59,18 +59,25 @@ const ProductCard = ({ product, productName, productValue, onClick }) => {
   };
 
   const imageUrl =
-    product?.imagemFile instanceof Blob
-      ? URL.createObjectURL(product.imagemFile)
+    product?.imageFile instanceof Blob
+      ? URL.createObjectURL(product.imageFile)
       : "https://placehold.co/250x250";
+
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const productValue = formatter.format(product?.value) || "R$ 00,00";
 
   return (
     <ProductCardContainer onClick={handleClick}>
       <ProductCardImage>
-        <img src={imageUrl} alt={productName} />
+        <img src={imageUrl} alt={product?.name || "Product"} />
       </ProductCardImage>
       <ProductCardInfoContainer>
-        <ProductCardName>{productName}</ProductCardName>
-        <ProductCardValue>R$ {productValue}</ProductCardValue>
+        <ProductCardName>{product?.name || "Nome do Produto"}</ProductCardName>
+        <ProductCardValue>{productValue}</ProductCardValue>
       </ProductCardInfoContainer>
     </ProductCardContainer>
   );

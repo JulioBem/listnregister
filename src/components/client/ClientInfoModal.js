@@ -69,7 +69,7 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const ClientInfoModal = ({ isOpen, closeModal, cliente }) => {
+const ClientInfoModal = ({ isOpen, closeModal, client }) => {
   const customStyles = {
     content: {
       width: "1068px",
@@ -90,9 +90,21 @@ const ClientInfoModal = ({ isOpen, closeModal, cliente }) => {
     },
   };
 
+  const translationMap = {
+    cnpj: "CNPJ",
+    cep: "CEP",
+    name: "Nome",
+    phone: "Telefone",
+    address: "Endereço",
+    county: "Bairro",
+    city: "Cidade",
+    state: "Estado",
+    number: "Número",
+  };
+
   const formatStringTitle = (str) => {
-    if (str === "cnpj" || str === "cep") return str.toUpperCase();
-    else return str.charAt(0).toUpperCase() + str.slice(1);
+    const translatedKey = translationMap[str] || str;
+    return translatedKey.charAt(0).toUpperCase() + translatedKey.slice(1);
   };
 
   return (
@@ -105,11 +117,11 @@ const ClientInfoModal = ({ isOpen, closeModal, cliente }) => {
     >
       <FormWrapper>
         <FormHeader>
-          <h2>{cliente?.nome}</h2>
+          <h2>{client?.name}</h2>
           <IoMdClose onClick={closeModal} size={28} color="#D9D9D9" />
         </FormHeader>
         <InfoWrapper>
-          {Object.entries(cliente).map(([key, value]) => (
+          {Object.entries(client).map(([key, value]) => (
             <div key={key}>
               <strong>{formatStringTitle(key)}:</strong> <span>{value}</span>
             </div>

@@ -1,14 +1,13 @@
-// store/store.js
 import { configureStore } from "@reduxjs/toolkit";
-import clienteReducer from "./reducers/clienteReducer";
-import pedidoReducer from "./reducers/pedidoReducer";
-import produtoReducer from "./reducers/produtoReducer";
+import clientReducer from "./reducers/clientReducer";
+import orderReducer from "./reducers/orderReducer";
+import productReducer from "./reducers/productReducer";
 
 const store = configureStore({
   reducer: {
-    cliente: clienteReducer,
-    pedido: pedidoReducer,
-    produto: produtoReducer,
+    client: clientReducer,
+    order: orderReducer,
+    product: productReducer,
   },
 });
 

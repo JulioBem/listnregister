@@ -1,11 +1,10 @@
-// pages/ClientesPage.js
 import React, { useState } from "react";
-import FormularioCadastroCliente from "../components/FormularioCadastroCliente";
-import ListaClientes from "../components/ListaClientes";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/common/SearchBar";
+import FormRegisterClient from "../components/client/FormRegisterClient";
+import ClientInfoModal from "../components/client/ClientInfoModal";
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
-import ClientInfoModal from "../components/ClientInfoModal";
+import NavBar from "../components/common/NavBar";
+import ClientList from "../components/client/ClientList";
 
 const PageContainer = styled.div`
   display: flex;
@@ -14,7 +13,7 @@ const PageContainer = styled.div`
   gap: 22px;
 `;
 
-const ClientesPage = () => {
+const ClientsPage = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isClientInfoModalOpen, setIsClientInfoModalOpen] = useState(false);
   const [currentClientView, setCurrentClientView] = useState({});
@@ -27,8 +26,8 @@ const ClientesPage = () => {
     setIsRegisterModalOpen(false);
   };
 
-  const openClientInfoModal = (cliente) => {
-    setCurrentClientView(cliente);
+  const openClientInfoModal = (client) => {
+    setCurrentClientView(client);
     setIsClientInfoModalOpen(true);
   };
 
@@ -41,22 +40,22 @@ const ClientesPage = () => {
       <NavBar />
 
       <SearchBar creationTarget={"Cliente"} openModal={openRegisterModal} />
-      <ListaClientes
+      <ClientList
         openModal={openClientInfoModal}
         closeModal={closeClientInfoModal}
         isOpen={isClientInfoModalOpen}
       />
-      <FormularioCadastroCliente
+      <FormRegisterClient
         isOpen={isRegisterModalOpen}
         closeModal={closeRegisterModal}
       />
       <ClientInfoModal
         isOpen={isClientInfoModalOpen}
         closeModal={closeClientInfoModal}
-        cliente={currentClientView}
+        client={currentClientView}
       />
     </PageContainer>
   );
 };
 
-export default ClientesPage;
+export default ClientsPage;

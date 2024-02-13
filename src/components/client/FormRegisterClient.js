@@ -3,12 +3,12 @@ import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { cadastrarCliente } from "../store/actions/clienteActions";
+import { registerClient } from "../../store/actions/clientActions";
 import styled from "styled-components";
-import RegisterModal from "./RegisterModal";
-import InputField from "./InputField";
 import { IoMdClose } from "react-icons/io";
 import { PatternFormat } from "react-number-format";
+import RegisterModal from "../common/RegisterModal";
+import InputField from "../common/InputField";
 
 const FormWrapper = styled.div`
   form {
@@ -84,7 +84,7 @@ const SubmitBtnWrapper = styled.div`
   height: 60px;
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: flex-end;
   align-items: center;
   padding: 14px 13px;
 
@@ -106,49 +106,48 @@ const SubmitBtnWrapper = styled.div`
   }
 `;
 
-const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
+const FormRegisterClient = ({ closeModal, isOpen }) => {
   const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
-      nome: "",
+      name: "",
       cnpj: "",
-      telefone: "",
+      phone: "",
       cep: "",
-      endereco: "",
-      bairro: "",
-      cidade: "",
-      estado: "",
-      numero: "",
+      address: "",
+      county: "",
+      city: "",
+      state: "",
+      number: "",
     },
     validationSchema: Yup.object({
-      nome: Yup.string().required("Campo obrigatório"),
+      name: Yup.string().required("Campo obrigatório"),
       cnpj: Yup.string()
         .required("Campo obrigatório")
         .matches(
           /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
           "CNPJ deve ter o formato 'xx.xxx.xxx/xxxx-xx'"
         ),
-      telefone: Yup.string()
+      phone: Yup.string()
         .required("Campo obrigatório")
         .matches(
           /^\(\d{2}\) \d{5}-\d{4}$/,
           "Telefone deve ter o formato '(xx) xxxxx-xxxx'"
         ),
-      numero: Yup.string().required("Campo obrigatório"),
+      number: Yup.string().required("Campo obrigatório"),
       cep: Yup.string()
         .required("Campo obrigatório")
         .matches(/^\d{5}-\d{3}$/, "CEP deve ter o formato '12345-678'"),
     }),
     onSubmit: (values) => {
-      dispatch(cadastrarCliente(values));
+      dispatch(registerClient(values));
       formik.resetForm();
       closeModal();
     },
   });
 
   const buscarCep = async (cep) => {
-    console.log("🚀 ~ buscarCep ~ cep:", cep);
     try {
       const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
       if (response.data.erro && formik.values.cep.length === 8) {
@@ -158,10 +157,10 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
         const { logradouro, bairro, localidade, uf } = response.data;
         formik.setValues({
           ...formik.values,
-          endereco: logradouro,
-          bairro,
-          cidade: localidade,
-          estado: uf,
+          address: logradouro,
+          county: bairro,
+          city: localidade,
+          state: uf,
         });
       }
     } catch (error) {
@@ -174,23 +173,23 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
     <RegisterModal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      contentLabel="Cadastrar Cliente"
+      contentLabel="Cadastrar Client"
     >
       <FormWrapper>
         <form onSubmit={formik.handleSubmit}>
           <FormHeader>
-            <h2>Cadastrar Cliente</h2>
+            <h2>Cadastrar Client</h2>
             <IoMdClose onClick={closeModal} size={28} color="#D9D9D9" />
           </FormHeader>
           <InputWrapper>
             <InputField
               label="Nome:"
-              id="nome"
-              name="nome"
+              id="name"
+              name="name"
               type="text"
-              value={formik.values.nome}
+              value={formik.values.name}
               onChange={formik.handleChange}
-              error={formik.touched.nome && formik.errors.nome}
+              error={formik.touched.name && formik.errors.name}
             />
             <PatternFormat
               format="##.###.###/####-##"
@@ -209,12 +208,12 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
               mask="_"
               customInput={InputField}
               label="Telefone:"
-              id="telefone"
-              name="telefone"
+              id="phone"
+              name="phone"
               type="text"
-              value={formik.values.telefone}
+              value={formik.values.phone}
               onChange={formik.handleChange}
-              error={formik.touched.telefone && formik.errors.telefone}
+              error={formik.touched.phone && formik.errors.phone}
             />
             <PatternFormat
               format="#####-###"
@@ -233,43 +232,45 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
             />
             <InputField
               label="Estado:"
-              id="estado"
-              name="estado"
+              id="state"
+              name="state"
               type="text"
-              value={formik.values.estado}
+              value={formik.values.state}
               readOnly
             />
             <InputField
               label="Cidade:"
-              id="cidade"
-              name="cidade"
+              id="city"
+              name="city"
               type="text"
-              value={formik.values.cidade}
+              value={formik.values.city}
               readOnly
             />
             <InputField
               label="Bairro:"
-              id="bairro"
-              name="bairro"
+              id="county"
+              name="county"
               type="text"
-              value={formik.values.bairro}
-              readOnly
+              value={formik.values.county}
+              onChange={formik.handleChange}
+              error={formik.touched.county && formik.errors.county}
             />
             <InputField
               label="Endereço:"
-              id="endereco"
-              name="endereco"
+              id="address"
+              name="address"
               type="text"
-              value={formik.values.endereco}
-              readOnly
+              value={formik.values.address}
+              onChange={formik.handleChange}
+              error={formik.touched.address && formik.errors.address}
             />
             <InputField
               label="Número:"
-              id="numero"
-              name="numero"
+              id="number"
+              name="number"
               type="text"
               onChange={formik.handleChange}
-              value={formik.values.numero}
+              value={formik.values.number}
             />
           </InputWrapper>
           <SubmitBtnWrapper>
@@ -288,4 +289,4 @@ const FormularioCadastroCliente = ({ closeModal, isOpen }) => {
   );
 };
 
-export default FormularioCadastroCliente;
+export default FormRegisterClient;

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import FormularioCadastroProduto from "../components/FormularioCadastroProduto";
-import ListaProdutos from "../components/ListaProdutos";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/common/SearchBar";
 import styled from "styled-components";
-import NavBar from "../components/NavBar";
-import ProductInfoModal from "../components/ProductInfoModal";
+import NavBar from "../components/common/NavBar";
+import ProductInfoModal from "../components/product/ProductInfoModal";
+import ProductList from "../components/product/ProductList";
+import FormRegisterProduct from "../components/product/FormRegisterProduct";
 
 const PageContainer = styled.div`
   display: flex;
@@ -26,8 +26,8 @@ const ProductsPage = () => {
     setIsRegisterModalOpen(false);
   };
 
-  const openProductInfoModal = (produto) => {
-    setCurrentProductView(produto);
+  const openProductInfoModal = (product) => {
+    setCurrentProductView(product);
     setIsProductInfoModalOpen(true);
   };
 
@@ -40,12 +40,12 @@ const ProductsPage = () => {
       <NavBar />
 
       <SearchBar creationTarget={"Produto"} openModal={openRegisterModal} />
-      <ListaProdutos
+      <ProductList
         openModal={openProductInfoModal}
         closeModal={closeProductInfoModal}
         isOpen={isProductInfoModalOpen}
       />
-      <FormularioCadastroProduto
+      <FormRegisterProduct
         isOpen={isRegisterModalOpen}
         closeModal={closeRegisterModal}
       />

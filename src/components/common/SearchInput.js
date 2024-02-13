@@ -1,11 +1,11 @@
-// components/SearchInput.js
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchTerm } from "../store/actions/clienteActions";
-import { setSearchTermPedido } from "../store/actions/pedidoActions";
-import { setSearchTermProduto } from "../store/actions/produtoActions";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
+
+import { setSearchTermClient } from "../../store/actions/clientActions";
+import { setSearchTermOrder } from "../../store/actions/orderActions";
+import { setSearchTermProduct } from "../../store/actions/productActions";
 
 const InputContainer = styled.div`
   display: flex;
@@ -28,23 +28,32 @@ const Input = styled.input`
 const SearchInput = ({ currentPage }) => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => {
-    if (currentPage === "Cliente") {
-      return state.cliente.searchTerm;
-    } else if (currentPage === "Pedido") {
-      return state.pedido.searchTermPedido;
-    } else if (currentPage === "Produto") {
-      return state.produto.searchTermProduto;
+    switch (currentPage) {
+      case "Cliente":
+        return state.client.searchTermClient;
+      case "Pedido":
+        return state.order.searchTermOrder;
+      case "Produto":
+        return state.product.searchTermProduct;
+      default:
+        return "";
     }
-    return "";
   });
+
   const handleInputChange = (event) => {
     const term = event.target.value;
-    if (currentPage === "Cliente") {
-      dispatch(setSearchTerm(term));
-    } else if (currentPage === "Pedido") {
-      dispatch(setSearchTermPedido(term));
-    } else if (currentPage === "Produto") {
-      dispatch(setSearchTermProduto(term));
+    switch (currentPage) {
+      case "Cliente":
+        dispatch(setSearchTermClient(term));
+        break;
+      case "Pedido":
+        dispatch(setSearchTermOrder(term));
+        break;
+      case "Produto":
+        dispatch(setSearchTermProduct(term));
+        break;
+      default:
+        break;
     }
   };
 

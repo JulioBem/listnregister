@@ -17,14 +17,7 @@ const InputWrapper = styled.div`
     justify-content: center;
     width: 100%;
 
-    .typeWarning {
-      font-size: 12px;
-      color: #949597;
-      line-height: 13px;
-      margin-top: 11px;
-    }
-
-    .fileName {
+    .infoText {
       font-size: 13px;
       color: #949597;
       line-height: 13px;
@@ -70,17 +63,7 @@ const InputWrapper = styled.div`
   }
 `;
 
-const InputFile = ({
-  label,
-  id,
-  name,
-  type,
-  value,
-  onChange,
-  onBlur,
-  error,
-  accept
-}) => {
+const InputFile = ({ label, id, name, type, value, onChange, onBlur, error, accept }) => {
   const [fileName, setFileName] = useState("");
 
   const handleFileChange = (event) => {
@@ -106,10 +89,8 @@ const InputFile = ({
           <RiImageAddLine size={27} />
           Faça o upload da foto
         </label>
-        <span className="typeWarning">JPG e PNG, somente</span>
-        {fileName && (
-          <div className="fileName">Arquivo selecionado: "{fileName}"</div>
-        )}
+        <span className="infoText">Formatos permitidos: JPG e PNG</span>
+        {fileName && <div className="infoText">Arquivo selecionado: "{fileName}"</div>}
         {error && <div className="error">{error}</div>}
       </div>
     </InputWrapper>

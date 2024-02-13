@@ -8,11 +8,9 @@ import {
 
 const NavBarContainer = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 20px;
-
   height: 68px;
   background-color: #fff;
   width: 100vw;
@@ -20,13 +18,12 @@ const NavBarContainer = styled.div`
 
 const NavLinkContainer = styled.div`
   display: flex;
-  flex-direction: row;
   gap: 4px;
   justify-content: center;
   align-items: center;
   height: 30px;
   padding: 6px;
-  font-weight: 400px;
+  font-weight: 400;
   cursor: pointer;
 
   a {
@@ -62,7 +59,7 @@ const NavLinkContainer = styled.div`
 
 const pages = ["Clientes", "Pedidos", "Produtos"];
 
-const Header = () => {
+const NavBar = () => {
   const location = useLocation();
 
   const renderIcon = (page) => {
@@ -84,13 +81,9 @@ const Header = () => {
         const isActive = location.pathname === `/${page.toLowerCase()}`;
 
         return (
-          <NavLinkContainer className={isActive ? "activeLink" : ""}>
+          <NavLinkContainer className={isActive ? "activeLink" : ""} key={page}>
             {renderIcon(page)}
-            <NavLink
-              to={`/${page.toLowerCase()}`}
-              key={page}
-              end={page === "Clientes"}
-            >
+            <NavLink to={`/${page.toLowerCase()}`} end={page === "Clients"}>
               {page}
             </NavLink>
           </NavLinkContainer>
@@ -100,4 +93,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default NavBar;

@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const InputWrapper = styled.div`
@@ -11,11 +10,11 @@ const InputWrapper = styled.div`
     line-height: 14.52px;
   }
 
-  input {
+  input,
+  textarea {
     padding: 12px 16px;
     border: 1.2px solid #ddd;
     width: 100%;
-    height: 48px;
     border-radius: 12px;
 
     &:focus {
@@ -24,15 +23,7 @@ const InputWrapper = styled.div`
   }
 
   textarea {
-    padding: 12px 16px;
-    border: 1.2px solid #ddd;
-    width: 100%;
     height: 94px;
-    border-radius: 12px;
-
-    &:focus {
-      outline: #006ffd 1.5px solid;
-    }
   }
 
   .error {

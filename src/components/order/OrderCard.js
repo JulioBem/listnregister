@@ -10,6 +10,7 @@ const OrderCardContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   padding: 16px;
   gap: 16px;
 
@@ -17,8 +18,8 @@ const OrderCardContainer = styled.div`
 `;
 
 const OrderCardAvatar = styled.div`
-  width: 40px;
-  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
 
   display: flex;
   justify-content: center;
@@ -40,7 +41,7 @@ const OrderCardInfoContainer = styled.div`
     "name price"
     "qtd price";
   gap: 0;
-  /* width: min-content; */
+  width: 100%;
 
   p {
     white-space: nowrap;
@@ -92,17 +93,21 @@ const getInitialLetters = (str) => {
 };
 
 const OrderCard = ({ order }) => {
-  const { nome } = JSON.parse(order.cliente);
+  const { name } = JSON.parse(order.client);
+  const formatter = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+
+  const productValue = formatter.format(order?.totalValue) || "R$ 00,00";
 
   return (
     <OrderCardContainer>
-      <OrderCardAvatar>{getInitialLetters(nome)}</OrderCardAvatar>
+      <OrderCardAvatar>{getInitialLetters(name)}</OrderCardAvatar>
       <OrderCardInfoContainer>
-        <OrderCardName>{nome}</OrderCardName>
-        <OrderCardQtd>
-          Qtd. de Produtos: {order.qtdDeProdutosTotal}
-        </OrderCardQtd>
-        <OrderCardPrice>R$ {order.valorTotal}</OrderCardPrice>
+        <OrderCardName>{name}</OrderCardName>
+        <OrderCardQtd>Qtd. de Produtos: {order.pdtTotalQuantity}</OrderCardQtd>
+        <OrderCardPrice>{productValue}</OrderCardPrice>
       </OrderCardInfoContainer>
     </OrderCardContainer>
   );

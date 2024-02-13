@@ -1,4 +1,3 @@
-// styles/GlobalStyles.js
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
@@ -22,9 +21,23 @@ const GlobalStyles = createGlobalStyle`
     &:hover {
       text-decoration: underline;
     }
-
-    
   }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+    border-radius: 0;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #f6f8fc;
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: #d9d9d9 #f6f8fc;
 `;
 
 export default GlobalStyles;
